@@ -1,0 +1,18 @@
+Pizza numéro : 2
+Type de viande : poulet (5)
+Type de garniture : piments (2)
+Taille : Grande (3)
+Type de croute : Ordinaire (0)
+Extra viande : Aucune (0)
+Extra garniture : Aucune (0)
+------------------------------
+
+Pizza numéro : 3
+Type de viande : poulet (5)
+Type de garniture : piments (2)
+Taille : Grande (3)
+Type de croute : Ordinaire (0)
+Extra viande : Aucune (0)
+Extra garniture : Aucune (0)
+------------------------------
+

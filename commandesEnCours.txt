@@ -1,0 +1,46 @@
+Aucune données disponibles
+Pizza numéro : 2
+Type de viande : pepperoni (1)
+Type de garniture : Aucune (0)
+Taille : Moyenne (2)
+Type de croute : Ordinaire (0)
+Extra viande : Aucune (0)
+Extra garniture : Aucune (0)
+------------------------------
+
+Pizza numéro : 3
+Type de viande : saucisses italiennes (6)
+Type de garniture : Aucune (0)
+Taille : Jumbo (4)
+Type de croute : Ordinaire (0)
+Extra viande : Aucune (0)
+Extra garniture : Aucune (0)
+------------------------------
+
+Pizza numéro : 4
+Type de viande : bacon (2)
+Type de garniture : Aucune (0)
+Taille : Moyenne (2)
+Type de croute : Ordinaire (0)
+Extra viande : Aucune (0)
+Extra garniture : Aucune (0)
+------------------------------
+
+Pizza numéro : 5
+Type de viande : pepperoni (1)
+Type de garniture : Aucune (0)
+Taille : Petite (1)
+Type de croute : Ordinaire (0)
+Extra viande : Aucune (0)
+Extra garniture : Aucune (0)
+------------------------------
+
+Pizza numéro : 6
+Type de viande : bacon (2)
+Type de garniture : Aucune (0)
+Taille : Moyenne (2)
+Type de croute : Ordinaire (0)
+Extra viande : Aucune (0)
+Extra garniture : Aucune (0)
+------------------------------
+
