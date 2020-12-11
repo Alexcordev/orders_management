@@ -1,9 +1,1 @@
-Pizza numéro : 1
-Type de viande : viande fumee (4)
-Type de garniture : champignons (1)
-Taille : Moyenne (2)
-Type de croute : Ordinaire (0)
-Extra viande : pepperoni (1)
-Extra garniture : champignons (1)
-------------------------------
-
+Aucune données disponibles

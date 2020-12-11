@@ -126,7 +126,7 @@ public class Tp3Gr20 {
     return pizza;
     }
 
-    public static void commanderPizza(Pizza [] tab) {
+    public static void commanderPizza(Pizza [] tab, Pizza [] tab1) {
         int grandeur;
         int viande;
 
@@ -154,15 +154,9 @@ public class Tp3Gr20 {
         while (viande < Pizza.MIN_VIANDE || viande > Pizza.MAX_VIANDE) {
             viande = validerEntier(MSG_VIANDE, "Erreur! Saisir entre 0 et 4", Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
         }
-        boolean tabEstPlein;
-        for (int i = 0; i < tab.length; i++) {
-            tabEstPlein = i == tab.length -1;
-            if (tabEstPlein) {
-                augmenterTailleTab(tab);
-            }
-        }
+        ajouter(agrandirTableau(tab, tab1), new Pizza(viande, 0, grandeur, 0, 0, 0));
 
-        ajouter(tab, new Pizza(viande, 0, grandeur, 0, 0, 0));
+
 
         System.out.println();
         System.out.println("COMMANDE AJOUTÉE");
@@ -265,15 +259,25 @@ public class Tp3Gr20 {
         }
     }
 
-    public static void augmenterTailleTab(Pizza [] tab) {
+    public static Pizza[] agrandirTableau(Pizza[] tabSource, Pizza [] tabDest) {
+        boolean tabEstPlein;
+        for (int i = 0; i < tabSource.length; i++) {
 
-        Pizza [] temp = new Pizza[tab.length + 10];
+            tabEstPlein = i == tabSource.length - 1;
+            if (tabEstPlein) {
 
-        for (int i = 0; i < tab.length -1; i++){
-            temp[i] = tab[i];
+                for (int j = 0; j < tabDest.length; j++) {
+                    tabDest[j] = tabSource[i];
+
+                    tabSource[i] = tabDest[j];
+                }
+
+
+            }
+
         }
-        tab = temp;
 
+        return tabDest;
     }
 
     private static void supprimerPizza(Pizza[] tab, int entree) {
@@ -357,47 +361,43 @@ public class Tp3Gr20 {
     }
 
     public static void envoyerPizzaALivraison(Pizza[] tab, Pizza[] tab1) {
-        char reponse;
+        char reponse = ' ';
         int entierValide;
+        String mess = "";
         boolean estVide;
-        boolean resultat = false;
+        boolean estIdentique = false;
 
         estVide = tab[0] == null;
         if (estVide) {
             System.out.println("Impossible de d'envoyer une pizza a la livraison car il n'y a aucune commande en cours");
         }
-
         if (!estVide) {
-            do {
-                entierValide = validerEntier("Entrez le numéro de la pizza : ", MSG_ERR_MENU, 0, tab.length - 1);
-                for (int i = 0; i < tab.length -1; i++) {
+            entierValide = validerEntier("Entrez le numéro de la pizza : ", MSG_ERR_MENU, 0, tab.length - 1);
+            for (int i = 0; i < tab.length - 1; i++) {
+                if (tab[i] != null) {
+                    estIdentique = tab[i].getNumero() == entierValide;
 
-                    resultat = tab[i].getNumero() == entierValide;
-                    System.out.println("num " + resultat);
-                    if (resultat) {
-
+                    if (estIdentique) {
                         System.out.println(tab[i]);
 
                         reponse = validerCar("Voulez-vous envoyer cette pizza à la livraison : ", MSG_ERR_MENU);
                         if (reponse == 'o' || reponse == 'O') {
                             ajouter(tab1, tab[i]);
-                            System.out.println("num " + tab[i].getNumero());
                             supprimerPizza(tab, entierValide);
                             System.out.println("Envoie à la livraison confirmée");
 
                         } else if (reponse == 'n' || reponse == 'N') {
                             System.out.println("Envoie en livraison annulée");
-
                         }
-
-                    } else {
-                        System.out.println("Erreur");
                     }
-
                 }
-                //}
-
-            } while (resultat);
+            }
+        }
+        if (!estIdentique) {
+            System.out.println(" Impossible de livrer cette pizza car cette pizza n'est pas dans les commandes"
+                                   +" en cours de traitement.");
+        } else {
+            System.out.println();
         }
     }
 
@@ -406,23 +406,20 @@ public class Tp3Gr20 {
         char reponse;
         int entierValide;
         boolean estVide;
-        boolean resultat = false;
+        boolean estIdentique = false;
 
         estVide = tab[0] == null;
         if (estVide) {
             System.out.println(" Impossible de"
-                    +" confirmer une livraison car il n'y a aucune livraison en cours");
+                    + " confirmer une livraison car il n'y a aucune livraison en cours");
         }
-
         if (!estVide) {
-            do {
-                entierValide = validerEntier("Entrez le numéro de la pizza : ", MSG_ERR_MENU, 0, tab.length - 1);
-                for (int i = 0; i < tab.length; i++) {
+            entierValide = validerEntier("Entrez le numéro de la pizza : ", MSG_ERR_MENU, 0, tab.length - 1);
+            for (int i = 0; i < tab.length - 1; i++) {
+                if (tab[i] != null) {
+                    estIdentique = tab[i].getNumero() == entierValide;
 
-                    resultat = i + 1 == entierValide;
-
-
-                    if (resultat) {
+                    if (estIdentique) {
                         System.out.println(tab[i]);
                         System.out.println();
                         reponse = validerCar("Voulez-vous confirmer la livraison de cette pizza : ", MSG_ERR_MENU);
@@ -436,13 +433,14 @@ public class Tp3Gr20 {
                             System.out.println("Confirmation de livraison annulée");
 
                         }
-
                     }
-
                 }
-                //}
-
-            } while (resultat);
+            }
+        }
+        if (!estIdentique) {
+            System.out.println("Impossible de confirmer la livraison car cette pizza n'est pas en cours de livraison.");
+        } else {
+            System.out.println();
         }
     }
 
@@ -450,6 +448,9 @@ public class Tp3Gr20 {
         Pizza [] commandesEnCours = new Pizza[10];
         Pizza [] pizzaEnLivraison = new Pizza[10];
         Pizza [] livraisonConfirmee = new Pizza[10];
+        Pizza [] tableauDeTravail = new Pizza[commandesEnCours.length + 5];
+
+
         int choixMenu;    //choix au menu
         //presentation du logiciel
         presenterLogiciel();
@@ -471,7 +472,7 @@ public class Tp3Gr20 {
                     System.out.println("PLACER UNE COMMANDE");
                     System.out.println("------------------------------");
                     System.out.println();
-                    commanderPizza(commandesEnCours);
+                    commanderPizza(commandesEnCours, tableauDeTravail);
                     System.out.println();
                     pause();
                     break;
