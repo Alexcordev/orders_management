@@ -1,5 +1,5 @@
-Pizza numéro : 2
-Type de viande : poulet (5)
+Pizza numéro : 4
+Type de viande : bacon (2)
 Type de garniture : Aucune (0)
 Taille : Jumbo (4)
 Type de croute : Ordinaire (0)
@@ -7,7 +7,7 @@ Extra viande : Aucune (0)
 Extra garniture : Aucune (0)
 ------------------------------
 
-Pizza numéro : 1
+Pizza numéro : 5
 Type de viande : bacon (2)
 Type de garniture : Aucune (0)
 Taille : Jumbo (4)
@@ -17,9 +17,36 @@ Extra garniture : Aucune (0)
 ------------------------------
 
 Pizza numéro : 3
+Type de viande : bacon (2)
+Type de garniture : Aucune (0)
+Taille : Jumbo (4)
+Type de croute : Ordinaire (0)
+Extra viande : Aucune (0)
+Extra garniture : Aucune (0)
+------------------------------
+
+Pizza numéro : 2
+Type de viande : bacon (2)
+Type de garniture : champignons (1)
+Taille : Jumbo (4)
+Type de croute : Trois Cereales (2)
+Extra viande : Aucune (0)
+Extra garniture : champignons (1)
+------------------------------
+
+Pizza numéro : 6
 Type de viande : poulet (5)
 Type de garniture : Aucune (0)
-Taille : Moyenne (2)
+Taille : Jumbo (4)
+Type de croute : Mince (1)
+Extra viande : Aucune (0)
+Extra garniture : Aucune (0)
+------------------------------
+
+Pizza numéro : 1
+Type de viande : bacon (2)
+Type de garniture : Aucune (0)
+Taille : Jumbo (4)
 Type de croute : Ordinaire (0)
 Extra viande : Aucune (0)
 Extra garniture : Aucune (0)

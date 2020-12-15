@@ -58,28 +58,41 @@ public class Tp3Gr20 {
         boolean estPasValide;
         int entier;
         int entierValide = -1;
+        boolean wenttocatch;
         Scanner monScanner = new Scanner(System.in);
 
         if (min >= 0 && max >= min) {
                 System.out.print(msgSoll);
-                entier = monScanner.nextInt();
-                estPasValide = entier < min || entier > max;
-
-                if (estPasValide) {
-                System.out.println(msgErr);
-            } else {
-                entierValide = entier;
-            }
-                while (estPasValide) {
-                    System.out.print(msgSoll);
-                    entier = monScanner.nextInt();
+            do {
+                try {
+                    wenttocatch = false;
+                    entier = monScanner.nextInt(); // sc is an object of scanner class
                     estPasValide = entier < min || entier > max;
-                if (estPasValide) {
-                    System.out.println(msgErr);
-                } else {
-                    entierValide = entier;
+                    if (estPasValide) {
+                        System.out.println(msgErr);
+                    } else {
+                        entierValide = entier;
+                    }
+                    while (estPasValide) {
+                        System.out.print(msgSoll);
+                        entier = monScanner.nextInt();
+                        estPasValide = entier < min || entier > max;
+                        if (estPasValide) {
+                            System.out.println(msgErr);
+                        } else {
+                            entierValide = entier;
+                        }
+                    }
+                } catch (InputMismatchException e) {
+                    monScanner.next();
+                    wenttocatch = true;
+                    System.out.println(MSG_ERR_SAISIE);
                 }
-            }
+            } while (wenttocatch);
+               // entier = monScanner.nextInt();
+
+
+
             monScanner.reset();
         }
         return entierValide;
@@ -104,29 +117,29 @@ public class Tp3Gr20 {
         int nouvExtraViande;
         int nouvExtraGarn;
 
-        System.out.println("La viande de la pizza est " + pizza.getUneViande() + " (" + Pizza.viande(pizza.getUneViande()) + ")");
+        System.out.println("La viande de la pizza est " + pizza.getViande() + " (" + Pizza.viande(pizza.getViande()) + ")");
         nouvViande = validerEntier("Entrez un nouveau choix de viande :", MSG_ERR_SAISIE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
         pizza.setViande(nouvViande);
-        System.out.println("La garniture de la pizza est " + pizza.getUneGarniture() + " (" + Pizza.garniture(pizza.getUneGarniture()) + ")");
+        System.out.println("La garniture de la pizza est " + pizza.getGarniture() + " (" + Pizza.garniture(pizza.getGarniture()) + ")");
         nouvGarn = validerEntier("Entrez une nouvelle garniture :", MSG_ERR_SAISIE, Pizza.MIN_GARN, Pizza.MAX_GARN);
         pizza.setGarniture(nouvGarn);
-        System.out.println("La taille de la pizza est " + pizza.getUneGrandeur() + " (" + Pizza.grandeur(pizza.getUneGrandeur()) + ")");
+        System.out.println("La taille de la pizza est " + pizza.getGrandeur() + " (" + Pizza.grandeur(pizza.getGrandeur()) + ")");
         nouvGrandeur = validerEntier("Entrez une nouvelle grandeur :", MSG_ERR_SAISIE, Pizza.MIN_GRANDEUR, Pizza.MAX_GRANDEUR);
         pizza.setGrandeur(nouvGrandeur);
-        System.out.println("La croute de la pizza est " + pizza.getUneCroute() + " (" + Pizza.croute(pizza.getUneCroute()) + ")");
+        System.out.println("La croute de la pizza est " + pizza.getCroute() + " (" + Pizza.croute(pizza.getCroute()) + ")");
         nouvCroute = validerEntier("Entrez une nouvelle croute :", MSG_ERR_SAISIE, Pizza.MIN_CROUTE, Pizza.MAX_CROUTE);
         pizza.setCroute(nouvCroute);
-        System.out.println("L'extra viande de la pizza est " + pizza.getUnExtraViande() + " (" + Pizza.viande(pizza.getUnExtraViande()) + ")");
+        System.out.println("L'extra viande de la pizza est " + pizza.getExtraViande() + " (" + Pizza.viande(pizza.getExtraViande()) + ")");
         nouvExtraViande = validerEntier("Entrez un nouvel extra viande :", MSG_ERR_SAISIE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
         pizza.setExtraViande(nouvExtraViande);
-        System.out.println("L'extra garniture de la pizza est " + pizza.getUnExtraGarn() + " (" + Pizza.garniture(pizza.getUnExtraGarn()) + ")");
+        System.out.println("L'extra garniture de la pizza est " + pizza.getExtraGarn() + " (" + Pizza.garniture(pizza.getExtraGarn()) + ")");
         nouvExtraGarn = validerEntier("Entrez un nouvel extra garniture :", MSG_ERR_SAISIE, Pizza.MIN_GARN, Pizza.MAX_GARN);
         pizza.setExtraGarniture(nouvExtraGarn);
 
     return pizza;
     }
 
-    public static void commanderPizza(Pizza [] tab, Pizza [] tab1) {
+    public static void commanderPizza(Pizza [] tab) {
         int grandeur;
         int viande;
 
@@ -154,10 +167,25 @@ public class Tp3Gr20 {
         while (viande < Pizza.MIN_VIANDE || viande > Pizza.MAX_VIANDE) {
             viande = validerEntier(MSG_VIANDE, "Erreur! Saisir entre 0 et 4", Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
         }
-        ajouter(agrandirTableau(tab, tab1), new Pizza(viande, 0, grandeur, 0, 0, 0));
 
+        Pizza pizza = new Pizza(viande, 0, grandeur, 0, 0, 0);
 
+        boolean estPlein;
+        boolean inseree = false;
+        Pizza [] nouvTab;
 
+        ajouter(tab,pizza);
+        for (int i = 0; i < tab.length && !inseree; i++) {
+
+            estPlein = i == tab.length -1;
+
+            if (estPlein) {
+                nouvTab = augmenterTailleTableauCinq(tab);
+                ajouter(nouvTab,pizza);
+                tab = nouvTab;
+                inseree = true;
+            }
+        }
         System.out.println();
         System.out.println("COMMANDE AJOUTÉE");
         System.out.println();
@@ -166,7 +194,8 @@ public class Tp3Gr20 {
     public static void afficherTableauPizza(Pizza[] tab, String msgTabVide) {
         String mess = "";
         if (tab != null) {
-            for (int i = 0; i < tab.length -1; i++) {
+
+            for (int i = 0; i <= tab.length -1; i++) {
 
                 if (tab[i] != null) {
                     System.out.println(tab[i]);
@@ -179,24 +208,44 @@ public class Tp3Gr20 {
     }
 
     public static void ajouter(Pizza[] tab, Pizza pizza) {
+
         boolean inseree = false;
 
         for (int i = 0; i < tab.length && !inseree; i++) {
+
             inseree = tab[i] == null;
+
             if (inseree) {
                 tab[i] = pizza;
                 inseree = true;
+
             }
-
         }
-
     }
+
+    public static Pizza[] augmenterTailleTableauCinq(Pizza[] tab) {
+
+        Pizza [] tableauDeTravail;
+        Pizza [] nouveauTab;
+            if (tab == null) {
+                tableauDeTravail = new Pizza[5];
+            } else {
+                tableauDeTravail = new Pizza[tab.length + 5];
+                for (int i = 0; i < tab.length; i++) {
+                    tableauDeTravail[i] = tab[i];
+                }
+            }
+            nouveauTab = tableauDeTravail;
+
+        return nouveauTab;
+    }
+
             public static void confirmerSauvegarde(Pizza [] tab, Pizza pizza, String msgSoll,
                                                    String msgErr, String messConf, String messAnnul) {
             int reponse;
                 reponse = validerCar(msgSoll, msgErr);
                 if (reponse == 'o' || reponse == 'O') {
-                    System.out.println(trouverPizza(pizza, tab));/*mettreAjour (pizza, tab)*/;
+                    System.out.println(obtenirPizza(pizza, tab));
                     System.out.println(messConf);
                 } else if (reponse == 'n' || reponse == 'N') {
                     System.out.println(messAnnul);
@@ -204,8 +253,8 @@ public class Tp3Gr20 {
                 }
             }
 
-    public static Pizza trouverPizza(Pizza pizza, Pizza [] tab) {
-        int num;
+    public static Pizza obtenirPizza(Pizza pizza, Pizza [] tab) {
+
         boolean trouve;
         for (int i = 0; i < tab.length; i++) {
             trouve = tab[i] != null && tab[i].getNumero() == (pizza.getNumero());
@@ -257,27 +306,6 @@ public class Tp3Gr20 {
 
             } while (resultat);
         }
-    }
-
-    public static Pizza[] agrandirTableau(Pizza[] tabSource, Pizza [] tabDest) {
-        boolean tabEstPlein;
-        for (int i = 0; i < tabSource.length; i++) {
-
-            tabEstPlein = i == tabSource.length - 1;
-            if (tabEstPlein) {
-
-                for (int j = 0; j < tabDest.length; j++) {
-                    tabDest[j] = tabSource[i];
-
-                    tabSource[i] = tabDest[j];
-                }
-
-
-            }
-
-        }
-
-        return tabDest;
     }
 
     private static void supprimerPizza(Pizza[] tab, int entree) {
@@ -363,8 +391,7 @@ public class Tp3Gr20 {
     public static void envoyerPizzaALivraison(Pizza[] tab, Pizza[] tab1) {
         char reponse = ' ';
         int entierValide;
-        String mess = "";
-        boolean estVide;
+         boolean estVide;
         boolean estIdentique = false;
 
         estVide = tab[0] == null;
@@ -448,8 +475,21 @@ public class Tp3Gr20 {
         Pizza [] commandesEnCours = new Pizza[10];
         Pizza [] pizzaEnLivraison = new Pizza[10];
         Pizza [] livraisonConfirmee = new Pizza[10];
-        Pizza [] tableauDeTravail = new Pizza[commandesEnCours.length + 5];
+        boolean inseree = false;
+        boolean estPlein;
+        Pizza [] nouvTab;
 
+        for (int i = 0; i < commandesEnCours.length && !inseree; i++) {
+
+            estPlein = i == commandesEnCours.length -1;
+
+            if (estPlein) {
+                nouvTab = augmenterTailleTableauCinq(commandesEnCours);
+                commandesEnCours = nouvTab;
+                inseree = true;
+
+            }
+        }
 
         int choixMenu;    //choix au menu
         //presentation du logiciel
@@ -472,7 +512,19 @@ public class Tp3Gr20 {
                     System.out.println("PLACER UNE COMMANDE");
                     System.out.println("------------------------------");
                     System.out.println();
-                    commanderPizza(commandesEnCours, tableauDeTravail);
+                    inseree = false;
+                    for (int i = 0; i < commandesEnCours.length && !inseree; i++) {
+
+                        estPlein = i == commandesEnCours.length -1;
+
+                        if (estPlein) {
+                            nouvTab = augmenterTailleTableauCinq(commandesEnCours);
+                            commandesEnCours = nouvTab;
+                            inseree = true;
+
+                        }
+                    }
+                    commanderPizza(commandesEnCours);
                     System.out.println();
                     pause();
                     break;
@@ -494,6 +546,7 @@ public class Tp3Gr20 {
                     modifierPizza(commandesEnCours);
                     break;
                 case 4:
+
                     envoyerPizzaALivraison(commandesEnCours, pizzaEnLivraison);
 
                     break;
@@ -509,6 +562,7 @@ public class Tp3Gr20 {
                     break;
 
                 case 6:
+
                     confirmerLivraison(pizzaEnLivraison, livraisonConfirmee);
                     break;
 
@@ -536,3 +590,5 @@ public class Tp3Gr20 {
     }
 
 }
+
+

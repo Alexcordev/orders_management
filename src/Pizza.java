@@ -60,12 +60,12 @@ public class Pizza {
     public static final int MAX_CROUTE = CROUTES.length - 1;
 
     //Variables d'instance
-    private int uneViande = 0;
-    private int uneGarniture = 0;
-    private int uneGrandeur = 0;
-    private int uneCroute = 0;
-    private int unExtraViande = 0;
-    private int unExtraGarn = 0;
+    private int viande = 0;
+    private int garniture = 0;
+    private int grandeur = 0;
+    private int croute = 0;
+    private int extraViande = 0;
+    private int extraGarn = 0;
     private static int count = 1;
 
 
@@ -177,12 +177,12 @@ public class Pizza {
 
     public Pizza() {
 
-        uneViande = VIANDE_DEFAUT;
-        uneGarniture = GARNITURE_DEFAUT;
-        uneGrandeur = GRANDEUR_DEFAUT;
-        uneCroute = CROUTE_DEFAUT;
-        unExtraViande = EXTRA_DEFAUT;
-        unExtraGarn = EXTRA_DEFAUT;
+        this.viande = VIANDE_DEFAUT;
+        this.garniture = GARNITURE_DEFAUT;
+        this.grandeur = GRANDEUR_DEFAUT;
+        this.croute = CROUTE_DEFAUT;
+        this.extraViande = EXTRA_DEFAUT;
+        this.extraGarn = EXTRA_DEFAUT;
         numero += count++;
     }
 
@@ -204,10 +204,10 @@ public class Pizza {
         } else if (croute < MIN_CROUTE || croute > MAX_CROUTE) {
             setCroute(CROUTE_DEFAUT);
         } else {
-            uneViande = viande;
-            uneGarniture = garniture;
-            uneGrandeur = grandeur;
-            uneCroute = croute;
+            this.viande = viande;
+            this.garniture = garniture;
+            this.grandeur = grandeur;
+            this.croute = croute;
             numero += count++;
 
         }
@@ -235,12 +235,12 @@ public class Pizza {
             setExtraGarniture(EXTRA_DEFAUT);
         } else {
 
-            uneViande = viande;
-            uneGarniture = garniture;
-            uneGrandeur = grandeur;
-            uneCroute = croute;
-            unExtraViande = extraViande;
-            unExtraGarn = extraGarniture;
+            this.viande = viande;
+            this.garniture = garniture;
+            this.grandeur = grandeur;
+            this.croute = croute;
+            this.extraViande = extraViande;
+            this.extraGarn = extraGarniture;
             numero += count++;
         }
     }
@@ -257,34 +257,34 @@ public class Pizza {
         return numero;
     }
 
-    public int getUneViande() {
+    public int getViande() {
 
-        return uneViande;
+        return viande;
     }
 
-    public int getUneGarniture() {
+    public int getGarniture() {
 
-        return uneGarniture;
+        return garniture;
     }
 
-    public int getUneGrandeur() {
+    public int getGrandeur() {
 
-        return uneGrandeur;
+        return grandeur;
     }
 
-    public int getUneCroute() {
+    public int getCroute() {
 
-        return uneCroute;
+        return croute;
     }
 
-    public int getUnExtraViande() {
+    public int getExtraViande() {
 
-        return unExtraViande;
+        return extraViande;
     }
 
-    public int getUnExtraGarn() {
+    public int getExtraGarn() {
 
-        return unExtraGarn;
+        return extraGarn;
     }
 
 
@@ -306,7 +306,7 @@ public class Pizza {
         for (int i = 0; i <= MAX_CROUTE; i++) {
             estValide = i == c;
             if (estValide) {
-                uneCroute = c;
+                croute = c;
             }
         }
     }
@@ -324,7 +324,7 @@ public class Pizza {
         for (int i = 0; i <= MAX_GRANDEUR; i++) {
             estValide = i == g;
             if (estValide) {
-                uneGrandeur = g;
+                grandeur = g;
             }
         }
     }
@@ -342,7 +342,7 @@ public class Pizza {
         for (int i = 0; i <= MAX_VIANDE; i++) {
             estValide = i == v;
             if (estValide) {
-                uneViande = v;
+                viande = v;
             }
         }
     }
@@ -360,7 +360,7 @@ public class Pizza {
         for (int i = 0; i <= MAX_GARN; i++) {
             estValide = i == g;
             if (estValide) {
-                uneGarniture = g;
+                garniture = g;
             }
         }
     }
@@ -377,7 +377,7 @@ public class Pizza {
         for (int i = 0; i <= MAX_VIANDE; i++) {
             estValide = i == eV;
             if (estValide) {
-                unExtraViande = eV;
+                extraViande = eV;
             }
         }
     }
@@ -395,7 +395,7 @@ public class Pizza {
         for (int i = 0; i <= MAX_GARN; i++) {
             estValide = i == eG;
             if (estValide) {
-                unExtraGarn = eG;
+                extraGarn = eG;
             }
         }
     }
@@ -417,12 +417,12 @@ public class Pizza {
 
     public String toString() {
 
-        return "Pizza numéro : " + getNumero() + "\n" + "Type de viande : " + Pizza.viande(getUneViande()) + " (" + getUneViande() + ")" + "\n"
-                + "Type de garniture : " + Pizza.garniture(getUneGarniture()) + " (" + getUneGarniture() + ")" + "\n"
-                + "Taille : " + Pizza.grandeur(getUneGrandeur()) + " (" + getUneGrandeur() + ")" + "\n"
-                + "Type de croute : " + Pizza.croute(getUneCroute()) + " (" + getUneCroute() + ")" + "\n"
-                + "Extra viande : " + Pizza.viande(getUnExtraViande()) + " (" + getUnExtraViande() + ")" +"\n"
-                + "Extra garniture : " + Pizza.garniture(getUnExtraGarn()) + " (" + getUnExtraGarn() + ")" +"\n"
+        return "Pizza numéro : " + getNumero() + "\n" + "Type de viande : " + Pizza.viande(getViande()) + " (" + getViande() + ")" + "\n"
+                + "Type de garniture : " + Pizza.garniture(getGarniture()) + " (" + getGarniture() + ")" + "\n"
+                + "Taille : " + Pizza.grandeur(getGrandeur()) + " (" + getGrandeur() + ")" + "\n"
+                + "Type de croute : " + Pizza.croute(getCroute()) + " (" + getCroute() + ")" + "\n"
+                + "Extra viande : " + Pizza.viande(getExtraViande()) + " (" + getExtraViande() + ")" +"\n"
+                + "Extra garniture : " + Pizza.garniture(getExtraGarn()) + " (" + getExtraGarn() + ")" +"\n"
                 + "------------------------------" + "\n";
     }
 
