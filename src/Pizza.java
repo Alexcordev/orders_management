@@ -1,40 +1,4 @@
 public class Pizza {
-    /**
-     * I N F 1 1 2 0
-     * <p>
-     * Classe servant a faire des pizzas.
-     * <p>
-     * Les informations a conserver sur une pizza sont les suivantes:
-     * <p>
-     * Le type de viande, un entier.
-     * Les valeurs possibles sont�:  0 (Aucune), 1 (pepperoni), 2 (bacon), 3 (jambon),
-     * 4 (viande fumee),  5 (poulet), 6 (saucisses italiennes).
-     * La valeur par defaut est 1.
-     * <p>
-     * Le type de garniture, un entier.
-     * Les valeurs possibles sont�:  0 (Aucune), 1 (champignons), 2 (piments), 3 (oignons), 4 (olives),
-     * 5 (ananas).  La valeur par defaut est 2.
-     * <p>
-     * La grandeur, un entier.
-     * Les valeurs possibles sont�:  0  (Extra petite), 1 (Petite), 2 (Moyenne), 3 (Grande),
-     * 4 (Jumbo). La valeur par defaut est 2.
-     * <p>
-     * Un extra de viande, un entier.
-     * Les valeurs possibles sont�:  0 (Aucune), 1 (pepperoni), 2 (bacon), 3 (jambon), 4 (viande fumee),
-     * 5 (poulet), 6 (saucisses italiennes). La valeur par defaut est 0.
-     * <p>
-     * Une garniture en extra, un entier.
-     * Les valeurs possibles sont�:  0 (Aucune), 1 (champignons), 2 (piments), 3 (oignons), 4 (olives),
-     * 5 (ananas).   La valeur par defaut est 0.
-     * <p>
-     * Un type de cro�te, un entier.
-     * Les valeurs possibles sont�:  0 (Ordinaire), 1 (Mince), 2 (Trois Cereales), 3 (Epaisse), 4 (Fromage).
-     * La valeur par defaut est 0.
-     * <p>
-     * Un numero d�identification distinct (nombre entier positif).
-     * Les numeros debutent a 1 et sont consecutifs. Chaque pizza a un numero DIFFERENT qui lui est propre.
-     * Les numeros sont generes automatiquement par la classe Pizza.
-     */
 
     //Constantes de classe privees
     private static final String[] GARNITURES = {"Aucune", "champignons", "piments", "oignons", "olives", "ananas"};
@@ -130,7 +94,7 @@ public class Pizza {
         String chaine = "";
         if (no >= MIN_GRANDEUR & no <= MAX_GRANDEUR) {
             for (int i = 0; i <= MAX_GRANDEUR; i++) {
-                if ( i == no) {
+                if (i == no) {
                     chaine = GRANDEURS[i].trim();
                 }
             }
@@ -244,7 +208,6 @@ public class Pizza {
             numero += count++;
         }
     }
-
 
 
     /////////////////////////////
@@ -417,12 +380,13 @@ public class Pizza {
 
     public String toString() {
 
-        return "Pizza numéro : " + getNumero() + "\n" + "Type de viande : " + Pizza.viande(getViande()) + " (" + getViande() + ")" + "\n"
+        return "Pizza numéro : " + getNumero() + "\n" + "Type de viande : " + Pizza.viande(getViande()) + " ("
+                        + getViande() + ")" + "\n"
                 + "Type de garniture : " + Pizza.garniture(getGarniture()) + " (" + getGarniture() + ")" + "\n"
                 + "Taille : " + Pizza.grandeur(getGrandeur()) + " (" + getGrandeur() + ")" + "\n"
                 + "Type de croute : " + Pizza.croute(getCroute()) + " (" + getCroute() + ")" + "\n"
-                + "Extra viande : " + Pizza.viande(getExtraViande()) + " (" + getExtraViande() + ")" +"\n"
-                + "Extra garniture : " + Pizza.garniture(getExtraGarn()) + " (" + getExtraGarn() + ")" +"\n"
+                + "Extra viande : " + Pizza.viande(getExtraViande()) + " (" + getExtraViande() + ")" + "\n"
+                + "Extra garniture : " + Pizza.garniture(getExtraGarn()) + " (" + getExtraGarn() + ")" + "\n"
                 + "------------------------------" + "\n";
     }
 
