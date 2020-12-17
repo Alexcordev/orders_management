@@ -1,4 +1,12 @@
-
+/**
+ * Ce programme est une version de démonstration et sert à gérer les commandes d'une pizzeria *
+ *
+ * @autheur Alexandre Cormier
+ * Code permanent : CORA29027606
+ * Courriel : cormier.alexandre@courrier.uqam.ca
+ * Cours : INF1120 gr.020
+ * @version 2020-12-17
+ */
 import java.io.*;
 import java.util.*;
 
@@ -48,8 +56,7 @@ public class Tp3Gr20 {
     public final static String MSG_ENV_LIVRAISON_ANNUL = "Envoie de la pizza en livraison annulé";
     public final static String MSG_TAB_CONF_VIDE = "Impossible de confirmer une livraison car il"
                                                         + " n'y a aucune commande en cours de livraison";
-    public final static String MSG_LIV_VIDE = "Impossible d'envoyer une pizza en livraison car il n'y a aucune "
-                                                    + "commande en traitement pour le moment";
+
     public final static String MSG_MODIF_COMM_VIDE = "Impossible de modifier une commande car il n'y a aucune "
                                                         + "commande en traitement pour le moment";
 
@@ -498,8 +505,13 @@ public class Tp3Gr20 {
                                     pizza.setCroute(nouvCroute);
                                     pizza.setExtraViande(nouvExtraViande);
                                     pizza.setExtraGarniture(nouvExtraGarn);
+                                    System.out.println();
+
+                                    //Ici j'affiche la pizza modifiée pour voir qu'elle est bien modifiée
+                                    System.out.println("Voici la pizza modifiée : ");
                                     System.out.println(obtenirPizza(pizza, tab));
                                     System.out.println(MSG_MODIF_CONF);
+                                    System.out.println();
                                     return;
                                 }
 

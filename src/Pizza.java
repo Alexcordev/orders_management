@@ -1,3 +1,13 @@
+/**
+ * Ce programme est une version de démonstration et sert à gérer les commandes d'une pizzeria *
+ *
+ * @autheur Alexandre Cormier
+ * Code permanent : CORA29027606
+ * Courriel : cormier.alexandre@courrier.uqam.ca
+ * Cours : INF1120 gr.020
+ * @version 2020-12-17
+ */
+
 public class Pizza {
 
     //Constantes de classe privees
