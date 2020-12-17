@@ -21,7 +21,7 @@ public class Tp3Gr20 {
     public final static String MSG_TAB_LIV_VIDE = "Impossible de mettre une pizza en livraison car il"
             + " n'y a aucune commande en cours de traitement";
     public final static String MSG_TAB_AFF_LIV = "Aucune commande en cours de livraison pour le moment";
-
+    public final static String MSG_TAB_AFF_CONF_LIV = "Aucune livraison de confirmée pour le moment";
     public final static String MSG_SOLL_MENU = "Faites votre choix, entrez entre 1 et 8 : ";
     public final static String MSG_SOLL_CHOIX_PIZZA = "Entrez le numéro de la pizza : ";
     public final static String MSG_SOLL_CONF_VIANDE = "La viande actuelle de la pizza est : ";
@@ -47,32 +47,44 @@ public class Tp3Gr20 {
     public final static String MSG_ENV_LIVRAISON_CONF = "Confirmation de l'envoie de cette pizza en livraison";
     public final static String MSG_ENV_LIVRAISON_ANNUL = "Envoie de la pizza en livraison annulé";
     public final static String MSG_TAB_CONF_VIDE = "Impossible de confirmer une livraison car il"
-            + " n'y a aucune livraison en cours";
-    public final static String MSG_LIV_VIDE = "Aucune confirmation de livraison pour le moment";
+                                                        + " n'y a aucune commande en cours de livraison";
+    public final static String MSG_LIV_VIDE = "Impossible d'envoyer une pizza en livraison car il n'y a aucune "
+                                                    + "commande en traitement pour le moment";
+    public final static String MSG_MODIF_COMM_VIDE = "Impossible de modifier une commande car il n'y a aucune "
+                                                        + "commande en traitement pour le moment";
 
     //Messages d'erreurs
     public final static String MSG_ERR_MENU = "Erreur ! Veuillez saisir un nombre entre 1 et 8";
     public final static String MSG_ERR_SAISIE = "Erreur ! Veuillez saisir un nombre entier";
     public final static String MSG_ERR_CHOIX_DE_VIANDE = "Erreur ! Veuillez choisir entre "
-            + Pizza.MIN_VIANDE + "et " + Pizza.MAX_VIANDE;
+            + Pizza.MIN_VIANDE + " et " + Pizza.MAX_VIANDE;
     public final static String MSG_ERR_CHOIX_DE_GARN = "Erreur ! Veuillez choisir entre "
-            + Pizza.MIN_GARN + "et " + Pizza.MAX_GARN;
+            + Pizza.MIN_GARN + " et " + Pizza.MAX_GARN;
     public final static String MSG_ERR_CHOIX_DE_GRANDEUR = "Erreur ! Veuillez choisir entre "
-            + Pizza.MIN_GRANDEUR + "et " + Pizza.MAX_GRANDEUR;
+            + Pizza.MIN_GRANDEUR + " et " + Pizza.MAX_GRANDEUR;
     public final static String MSG_ERR_CHOIX_DE_CROUTE = "Erreur ! Veuillez choisir entre "
-            + Pizza.MIN_CROUTE + "et " + Pizza.MAX_CROUTE;
+            + Pizza.MIN_CROUTE + " et " + Pizza.MAX_CROUTE;
     public final static String MSG_ERR_CHOIX_X_VIANDE = "Erreur ! Veuillez choisir entre "
-            + Pizza.MIN_VIANDE + "et " + Pizza.MAX_VIANDE;
+            + Pizza.MIN_VIANDE + " et " + Pizza.MAX_VIANDE;
     public final static String MSG_ERR_CHOIX_X_GARN = "Erreur ! Veuillez choisir entre "
-            + Pizza.MIN_GARN + "et " + Pizza.MAX_GARN;
+            + Pizza.MIN_GARN + " et " + Pizza.MAX_GARN;
     public final static String MSG_ERR_CONF_MODIFS = "Erreur! Veuillez entrer oui ou non (O/N) : ";
+    public final static String MSG_ERR_COMM_EXISTE_PAS = "Il est impossible de placer cette commande en livraison "
+                                                          + " car ce numéro de commande n'existe pas dans les commandes "
+                                                              + "en cours de traitement";
+    public final static String MSG_ERR_LIV_EXISTE_PAS = "Ce numéro de commande n'existe pas dans les commandes "
+                                                            + "en cours de livraison";
+    public final static String MSG_ERR_MODIFS = "Impossible de modifier cette commande car elle n'existe pas "
+                                                            + "dans les commandes en cours de traitement";
 
     public final static int MENU_MIN = 1;
     public final static int MENU_MAX = 8;
 
 
     public static void afficherMenu() {
-        System.out.println("\n\nMENU PRINCIPAL\n\n"
+        System.out.println("\n\n---------------------");
+        System.out.println("MENU PRINCIPAL\n"
+                + "---------------------\n\n"
                 + "1 – Commander une pizza\n"
                 + "2 – Afficher les commandes en cours de traitements\n"
                 + "3 – Modifier une pizza (commande en cours de traitement seulement)\n"
@@ -80,7 +92,8 @@ public class Tp3Gr20 {
                 + "5 – Afficher les livraisons en cours\n"
                 + "6 – Confirmer une livraison\n"
                 + "7 – Afficher les pizzas qui ont ete livrees\n"
-                + "8 – Quitter le programme\n");
+                + "8 – Quitter le programme\n"
+                + "\n\n");
     }
 
     public static void pause() {
@@ -100,7 +113,7 @@ public class Tp3Gr20 {
         System.out.println("\n\n" + MSG_FIN_PROG);
     }
 
-    public static int validerEntier(String msgSoll, String msgErr,
+    public static int validerEntier(String msgSoll, String msgErr, String msgErrSaisie,
                                     int min, int max) {
         boolean estPasValide;
         int entier;
@@ -131,9 +144,11 @@ public class Tp3Gr20 {
                         }
                     }
                 } catch (InputMismatchException e) {
+                    System.out.println(msgErrSaisie);
+                    System.out.print(msgSoll);
                     monScanner.next();
                     estAttrapee = true;
-                    System.out.println(MSG_ERR_SAISIE);
+
                 }
             } while (estAttrapee);
 
@@ -146,7 +161,7 @@ public class Tp3Gr20 {
         int choix;
 
         do {
-            choix = validerEntier(MSG_SOLL_MENU, MSG_ERR_MENU, MENU_MIN, MENU_MAX);
+            choix = validerEntier(MSG_SOLL_MENU, MSG_ERR_MENU, MSG_ERR_SAISIE, MENU_MIN, MENU_MAX);
 
         } while (choix < 1 || choix > 8);
 
@@ -167,11 +182,11 @@ public class Tp3Gr20 {
         for (int i = Pizza.MIN_VIANDE; i <= Pizza.MAX_VIANDE; i++) {
             System.out.print(i + " " + " = " + " " + Pizza.viande(i) + "\n");
         }
-        System.out.println("-------------------------------------------------------------------------");
         System.out.println();
-        viande = validerEntier(MSG_VIANDE, MSG_ERR_CHOIX_DE_VIANDE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
+        viande = validerEntier(MSG_VIANDE, MSG_ERR_CHOIX_DE_VIANDE, MSG_ERR_SAISIE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
+        System.out.println("-------------------------------------------------------------------------");
         while (viande < Pizza.MIN_VIANDE || viande > Pizza.MAX_VIANDE) {
-            viande = validerEntier(MSG_VIANDE, MSG_ERR_CHOIX_DE_VIANDE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
+            viande = validerEntier(MSG_VIANDE, MSG_ERR_CHOIX_DE_VIANDE, MSG_ERR_SAISIE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
         }
         System.out.println();
         System.out.println("GARNITURES DISPONIBLES");
@@ -179,11 +194,11 @@ public class Tp3Gr20 {
         for (int i = Pizza.MIN_GARN; i <= Pizza.MAX_GARN; i++) {
             System.out.print(i + " " + " = " + " " + Pizza.garniture(i) + "\n");
         }
-        System.out.println("-------------------------------------------------------------------------");
         System.out.println();
-        garniture = validerEntier(MSG_CHOIX_GARN, MSG_ERR_CHOIX_DE_GARN, Pizza.MIN_GARN, Pizza.MAX_GARN);
+        garniture = validerEntier(MSG_CHOIX_GARN, MSG_ERR_CHOIX_DE_GARN, MSG_ERR_SAISIE, Pizza.MIN_GARN, Pizza.MAX_GARN);
+        System.out.println("-------------------------------------------------------------------------");
         while (garniture < Pizza.MIN_GARN || garniture > Pizza.MAX_GARN) {
-            garniture = validerEntier(MSG_CHOIX_GARN, MSG_ERR_CHOIX_DE_GARN, Pizza.MIN_GARN, Pizza.MAX_GARN);
+            garniture = validerEntier(MSG_CHOIX_GARN, MSG_ERR_CHOIX_DE_GARN, MSG_ERR_SAISIE, Pizza.MIN_GARN, Pizza.MAX_GARN);
         }
 
         System.out.println();
@@ -192,11 +207,11 @@ public class Tp3Gr20 {
         for (int i = Pizza.MIN_GRANDEUR; i <= Pizza.MAX_GRANDEUR; i++) {
             System.out.print(i + " = " + " " + Pizza.grandeur(i) + "\n");
         }
-        System.out.println("-------------------------------------------------------------------------");
         System.out.println();
-        grandeur = validerEntier(MSG_TAILLE_PIZZA, MSG_ERR_CHOIX_DE_GRANDEUR, Pizza.MIN_GRANDEUR, Pizza.MAX_GRANDEUR);
+        grandeur = validerEntier(MSG_TAILLE_PIZZA, MSG_ERR_CHOIX_DE_GRANDEUR, MSG_ERR_SAISIE, Pizza.MIN_GRANDEUR, Pizza.MAX_GRANDEUR);
+        System.out.println("-------------------------------------------------------------------------");
         while (grandeur < Pizza.MIN_GRANDEUR || grandeur > Pizza.MAX_GRANDEUR) {
-            grandeur = validerEntier(MSG_TAILLE_PIZZA, MSG_ERR_CHOIX_DE_GRANDEUR, Pizza.MIN_GRANDEUR, Pizza.MAX_GRANDEUR);
+            grandeur = validerEntier(MSG_TAILLE_PIZZA, MSG_ERR_CHOIX_DE_GRANDEUR, MSG_ERR_SAISIE, Pizza.MIN_GRANDEUR, Pizza.MAX_GRANDEUR);
         }
 
         System.out.println();
@@ -205,11 +220,11 @@ public class Tp3Gr20 {
         for (int i = Pizza.MIN_CROUTE; i <= Pizza.MAX_CROUTE; i++) {
             System.out.print(i + " = " + " " + Pizza.croute(i) + "\n");
         }
-        System.out.println("-------------------------------------------------------------------------");
         System.out.println();
-        croute = validerEntier(MSG_TYPE_CROUTE, MSG_ERR_CHOIX_DE_CROUTE, Pizza.MIN_CROUTE, Pizza.MAX_CROUTE);
+        croute = validerEntier(MSG_TYPE_CROUTE, MSG_ERR_CHOIX_DE_CROUTE, MSG_ERR_SAISIE, Pizza.MIN_CROUTE, Pizza.MAX_CROUTE);
+        System.out.println("-------------------------------------------------------------------------");
         while (croute < Pizza.MIN_CROUTE || croute > Pizza.MAX_CROUTE) {
-            croute = validerEntier(MSG_TYPE_CROUTE, MSG_ERR_CHOIX_DE_CROUTE, Pizza.MIN_CROUTE, Pizza.MAX_CROUTE);
+            croute = validerEntier(MSG_TYPE_CROUTE, MSG_ERR_CHOIX_DE_CROUTE, MSG_ERR_SAISIE, Pizza.MIN_CROUTE, Pizza.MAX_CROUTE);
         }
 
         System.out.println();
@@ -218,11 +233,11 @@ public class Tp3Gr20 {
         for (int i = Pizza.MIN_VIANDE; i <= Pizza.MAX_VIANDE; i++) {
             System.out.print(i + " = " + " " + Pizza.viande(i) + "\n");
         }
-        System.out.println("-------------------------------------------------------------------------");
         System.out.println();
-        extraV = validerEntier(MSG_EXTRA_VIANDE, MSG_ERR_CHOIX_X_VIANDE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
+        extraV = validerEntier(MSG_EXTRA_VIANDE, MSG_ERR_CHOIX_X_VIANDE, MSG_ERR_SAISIE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
+        System.out.println("-------------------------------------------------------------------------");
         while (extraV < Pizza.MIN_VIANDE || extraV > Pizza.MAX_VIANDE) {
-            extraV = validerEntier(MSG_EXTRA_VIANDE, MSG_ERR_CHOIX_X_VIANDE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
+            extraV = validerEntier(MSG_EXTRA_VIANDE, MSG_ERR_CHOIX_X_VIANDE, MSG_ERR_SAISIE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
         }
 
         System.out.println();
@@ -231,11 +246,11 @@ public class Tp3Gr20 {
         for (int i = Pizza.MIN_GARN; i <= Pizza.MAX_GARN; i++) {
             System.out.print(i + " " + " = " + " " + Pizza.garniture(i) + "\n");
         }
-        System.out.println("-------------------------------------------------------------------------");
         System.out.println();
-        extraG = validerEntier(MSG_EXTRA_GARN, MSG_ERR_CHOIX_X_GARN, Pizza.MIN_GARN, Pizza.MAX_GARN);
+        extraG = validerEntier(MSG_EXTRA_GARN, MSG_ERR_CHOIX_X_GARN, MSG_ERR_SAISIE, Pizza.MIN_GARN, Pizza.MAX_GARN);
+        System.out.println("-------------------------------------------------------------------------");
         while (extraG < Pizza.MIN_GARN || extraG > Pizza.MAX_GARN) {
-            extraG = validerEntier(MSG_VIANDE, MSG_ERR_CHOIX_X_GARN, Pizza.MIN_GARN, Pizza.MAX_GARN);
+            extraG = validerEntier(MSG_VIANDE, MSG_ERR_CHOIX_X_GARN, MSG_ERR_SAISIE, Pizza.MIN_GARN, Pizza.MAX_GARN);
         }
 
         Pizza pizza = new Pizza(viande, garniture, grandeur, croute, extraV, extraG);
@@ -245,7 +260,9 @@ public class Tp3Gr20 {
         ajouter(nouvTab, pizza);
 
         System.out.println();
+        System.out.println();
         System.out.println("COMMANDE AJOUTÉE");
+        System.out.println();
         System.out.println();
     }
 
@@ -312,133 +329,147 @@ public class Tp3Gr20 {
 
     public static void modifierPizza(Pizza[] tab) {
 
-        char reponse;
+        char reponse = ' ';
         int entierValide;
-        int nouvViande;
-        int nouvGarn;
-        int nouvGrandeur;
-        int nouvCroute;
-        int nouvExtraViande;
-        int nouvExtraGarn;
+        int nouvViande = 0;
+        int nouvGarn = 0;
+        int nouvGrandeur = 0;
+        int nouvCroute = 0;
+        int nouvExtraViande = 0;
+        int nouvExtraGarn = 0;
         boolean estVide;
         boolean resultat;
-        boolean charEstPasValide;
+        boolean estModifie;
+        boolean charEstValide;
+        String messErr = "";
 
         estVide = tab[0] == null;
 
         if (estVide) {
-            System.out.println(MSG_TAB_COMM_VIDE);
+            System.out.println(MSG_MODIF_COMM_VIDE);
         }
 
         if (!estVide) {
-            entierValide = validerEntier(MSG_SOLL_CHOIX_PIZZA, MSG_ERR_SAISIE, 0, tab.length - 1);
-            for (int i = 0; i < tab.length; i++) {
-                if (tab[i] != null) {
-                    resultat = tab[i].getNumero() == entierValide;
+            resultat = true;
+            estModifie = false;
 
-                    if (resultat) {
+            do {
+                entierValide = validerEntier(MSG_SOLL_CHOIX_PIZZA, MSG_ERR_SAISIE, MSG_ERR_SAISIE, 0, tab.length - 1);
+                for (int i = 0; i < tab.length; i++) {
+                    if (tab[i] != null) {
+                        resultat = tab[i].getNumero() == entierValide;
 
-                        Pizza pizza = tab[i];
-                        System.out.println(pizza);
-                        System.out.println();
+                        if (resultat) {
 
-                        reponse = validerCar(MSG_SOLL_MODIF, MSG_ERR_CONF_MODIFS);
-                        charEstPasValide = reponse == 'o' || reponse == 'O';
-
-                        if (charEstPasValide) {
+                            Pizza pizza = tab[i];
+                            System.out.println(pizza);
                             System.out.println();
-                            System.out.println("VIANDES DISPONIBLES");
-                            System.out.println("-------------------------------------------------------------------------");
-                            for (i = Pizza.MIN_VIANDE; i <= Pizza.MAX_VIANDE; i++) {
-                                System.out.print(i + " = " + " " + Pizza.viande(i) + "\n");
+
+                            reponse = validerCar(MSG_SOLL_MODIF, MSG_ERR_CONF_MODIFS);
+
+                            if (reponse == 'o' || reponse == 'O') {
+                                System.out.println();
+                                System.out.println("VIANDES DISPONIBLES");
+                                System.out.println("-------------------------------------------------------------------------");
+                                for (i = Pizza.MIN_VIANDE; i <= Pizza.MAX_VIANDE; i++) {
+                                    System.out.print(i + " = " + " " + Pizza.viande(i) + "\n");
+                                }
+                                System.out.println("-------------------------------------------------------------------------");
+                                System.out.println();
+                                System.out.println(MSG_SOLL_CONF_VIANDE + pizza.getViande() + " (" + Pizza.viande(pizza.getViande()) + ")");
+                                nouvViande = validerEntier(MSG_SOLL_MODIF_VIANDE, MSG_ERR_CHOIX_X_VIANDE, MSG_ERR_SAISIE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
+
+                                System.out.println();
+                                System.out.println("GARNITURES DISPONIBLES");
+                                System.out.println("-------------------------------------------------------------------------");
+                                for (i = Pizza.MIN_GARN; i <= Pizza.MAX_GARN; i++) {
+                                    System.out.print(i + " = " + " " + Pizza.garniture(i) + "\n");
+                                }
+                                System.out.println("-------------------------------------------------------------------------");
+                                System.out.println();
+                                System.out.println(MSG_SOLL_CONF_GARN + pizza.getGarniture() + " (" + Pizza.garniture(pizza.getGarniture()) + ")");
+                                nouvGarn = validerEntier(MSG_SOLL_MODIF_GARN, MSG_ERR_CHOIX_DE_GARN, MSG_ERR_SAISIE, Pizza.MIN_GARN, Pizza.MAX_GARN);
+
+                                System.out.println();
+                                System.out.println("GRANDEURS DISPONIBLES");
+                                System.out.println("-------------------------------------------------------------------------");
+                                for (i = Pizza.MIN_GRANDEUR; i <= Pizza.MAX_GRANDEUR; i++) {
+                                    System.out.print(i + " = " + " " + Pizza.grandeur(i) + "\n");
+                                }
+                                System.out.println("-------------------------------------------------------------------------");
+                                System.out.println();
+                                System.out.println(MSG_SOLL_CONF_GRANDEUR + pizza.getGrandeur() + " (" + Pizza.grandeur(pizza.getGrandeur()) + ")");
+                                nouvGrandeur = validerEntier(MSG_SOLL_MODIF_GRANDEUR, MSG_ERR_CHOIX_DE_GRANDEUR, MSG_ERR_SAISIE, Pizza.MIN_GRANDEUR, Pizza.MAX_GRANDEUR);
+
+                                System.out.println();
+                                System.out.println("CROÛTES DISPONIBLES");
+                                System.out.println("-------------------------------------------------------------------------");
+                                for (i = Pizza.MIN_CROUTE; i <= Pizza.MAX_CROUTE; i++) {
+                                    System.out.print(i + " = " + " " + Pizza.croute(i) + "\n");
+                                }
+                                System.out.println("-------------------------------------------------------------------------");
+                                System.out.println();
+                                System.out.println(MSG_SOLL_CONF_CROUTE + pizza.getCroute() + " (" + Pizza.croute(pizza.getCroute()) + ")");
+                                nouvCroute = validerEntier(MSG_SOLL_MODIF_CROUTE, MSG_ERR_CHOIX_DE_CROUTE, MSG_ERR_SAISIE, Pizza.MIN_CROUTE, Pizza.MAX_CROUTE);
+
+                                System.out.println();
+                                System.out.println("EXTRA VIANDE");
+                                System.out.println("-------------------------------------------------------------------------");
+                                for (i = Pizza.MIN_VIANDE; i <= Pizza.MAX_VIANDE; i++) {
+                                    System.out.print(i + " = " + " " + Pizza.viande(i) + "\n");
+                                }
+                                System.out.println("-------------------------------------------------------------------------");
+                                System.out.println();
+                                System.out.println(MSG_SOLL_CONF_XV + pizza.getExtraViande() + " (" + Pizza.viande(pizza.getExtraViande()) + ")");
+                                nouvExtraViande = validerEntier(MSG_SOLL_MODIF_XV, MSG_ERR_CHOIX_X_VIANDE, MSG_ERR_SAISIE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
+
+                                System.out.println();
+                                System.out.println("EXTRA GARNITURE");
+                                System.out.println("-------------------------------------------------------------------------");
+                                for (i = Pizza.MIN_GARN; i <= Pizza.MAX_GARN; i++) {
+                                    System.out.print(i + " = " + " " + Pizza.garniture(i) + "\n");
+                                }
+                                System.out.println("-------------------------------------------------------------------------");
+                                System.out.println();
+                                System.out.println(MSG_SOLL_CONF_XG + pizza.getExtraGarn() + " (" + Pizza.garniture(pizza.getExtraGarn()) + ")");
+                                nouvExtraGarn = validerEntier(MSG_SOLL_MODIF_XG, MSG_ERR_CHOIX_X_GARN, MSG_ERR_SAISIE, Pizza.MIN_GARN, Pizza.MAX_GARN);
+
+                                reponse = validerCar(MSG_CONF_MODIFS, MSG_ERR_CONF_MODIFS);
+                                if (reponse == 'o' || reponse == 'O') {
+                                    pizza.setViande(nouvViande);
+                                    pizza.setGarniture(nouvGarn);
+                                    pizza.setGrandeur(nouvGrandeur);
+                                    pizza.setCroute(nouvCroute);
+                                    pizza.setExtraViande(nouvExtraViande);
+                                    pizza.setExtraGarniture(nouvExtraGarn);
+                                    System.out.println(obtenirPizza(pizza, tab));
+                                    System.out.println(MSG_MODIF_CONF);
+                                    estModifie = true;
+
+                                } else if (reponse == 'n' || reponse == 'N') {
+                                    System.out.println(MSG_MODIF_ANNUL);
+
+                                }
+                            } else if (reponse == 'n' || reponse == 'N') {
+                                System.out.println(MSG_MODIF_ANNUL);
+
                             }
-                            System.out.println("-------------------------------------------------------------------------");
-                            System.out.println();
-                            System.out.println(MSG_SOLL_CONF_VIANDE + pizza.getViande() + " (" + Pizza.viande(pizza.getViande()) + ")");
-                            nouvViande = validerEntier(MSG_SOLL_MODIF_VIANDE, MSG_ERR_SAISIE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
-
-                            System.out.println();
-                            System.out.println("GARNITURES DISPONIBLES");
-                            System.out.println("-------------------------------------------------------------------------");
-                            for (i = Pizza.MIN_GARN; i <= Pizza.MAX_GARN; i++) {
-                                System.out.print(i + " = " + " " + Pizza.garniture(i) + "\n");
-                            }
-                            System.out.println("-------------------------------------------------------------------------");
-                            System.out.println();
-                            System.out.println(MSG_SOLL_CONF_GARN + pizza.getGarniture() + " (" + Pizza.garniture(pizza.getGarniture()) + ")");
-                            nouvGarn = validerEntier(MSG_SOLL_MODIF_GARN, MSG_ERR_SAISIE, Pizza.MIN_GARN, Pizza.MAX_GARN);
-
-                            System.out.println();
-                            System.out.println("GRANDEURS DISPONIBLES");
-                            System.out.println("-------------------------------------------------------------------------");
-                            for (i = Pizza.MIN_GRANDEUR; i <= Pizza.MAX_GRANDEUR; i++) {
-                                System.out.print(i + " = " + " " + Pizza.grandeur(i) + "\n");
-                            }
-                            System.out.println("-------------------------------------------------------------------------");
-                            System.out.println();
-                            System.out.println(MSG_SOLL_CONF_GRANDEUR + pizza.getGrandeur() + " (" + Pizza.grandeur(pizza.getGrandeur()) + ")");
-                            nouvGrandeur = validerEntier(MSG_SOLL_MODIF_GRANDEUR, MSG_ERR_SAISIE, Pizza.MIN_GRANDEUR, Pizza.MAX_GRANDEUR);
-
-                            System.out.println();
-                            System.out.println("CROÛTES DISPONIBLES");
-                            System.out.println("-------------------------------------------------------------------------");
-                            for (i = Pizza.MIN_CROUTE; i <= Pizza.MAX_CROUTE; i++) {
-                                System.out.print(i + " = " + " " + Pizza.croute(i) + "\n");
-                            }
-                            System.out.println("-------------------------------------------------------------------------");
-                            System.out.println();
-                            System.out.println(MSG_SOLL_CONF_CROUTE + pizza.getCroute() + " (" + Pizza.croute(pizza.getCroute()) + ")");
-                            nouvCroute = validerEntier(MSG_SOLL_MODIF_CROUTE, MSG_ERR_SAISIE, Pizza.MIN_CROUTE, Pizza.MAX_CROUTE);
-
-                            System.out.println();
-                            System.out.println("EXTRA VIANDE");
-                            System.out.println("-------------------------------------------------------------------------");
-                            for (i = Pizza.MIN_VIANDE; i <= Pizza.MAX_VIANDE; i++) {
-                                System.out.print(i + " = " + " " + Pizza.viande(i) + "\n");
-                            }
-                            System.out.println("-------------------------------------------------------------------------");
-                            System.out.println();
-                            System.out.println(MSG_SOLL_CONF_XV + pizza.getExtraViande() + " (" + Pizza.viande(pizza.getExtraViande()) + ")");
-                            nouvExtraViande = validerEntier(MSG_SOLL_MODIF_XV, MSG_ERR_SAISIE, Pizza.MIN_VIANDE, Pizza.MAX_VIANDE);
-
-                            System.out.println();
-                            System.out.println("EXTRA GARNITURE");
-                            System.out.println("-------------------------------------------------------------------------");
-                            for (i = Pizza.MIN_GARN; i <= Pizza.MAX_GARN; i++) {
-                                System.out.print(i + " = " + " " + Pizza.garniture(i) + "\n");
-                            }
-                            System.out.println("-------------------------------------------------------------------------");
-                            System.out.println();
-                            System.out.println(MSG_SOLL_CONF_XG + pizza.getExtraGarn() + " (" + Pizza.garniture(pizza.getExtraGarn()) + ")");
-                            nouvExtraGarn = validerEntier(MSG_SOLL_MODIF_XG, MSG_ERR_SAISIE, Pizza.MIN_GARN, Pizza.MAX_GARN);
 
 
-                            reponse = validerCar(MSG_CONF_MODIFS, MSG_ERR_CONF_MODIFS);
-                            charEstPasValide = reponse == 'o' || reponse == 'O';
-
-                            if (charEstPasValide) {
-                                pizza.setViande(nouvViande);
-                                pizza.setGarniture(nouvGarn);
-                                pizza.setGrandeur(nouvGrandeur);
-                                pizza.setCroute(nouvCroute);
-                                pizza.setExtraViande(nouvExtraViande);
-                                pizza.setExtraGarniture(nouvExtraGarn);
-
-                                System.out.println(obtenirPizza(pizza, tab));
-                                System.out.println(MSG_MODIF_CONF);
-
-                            }
-                        }
-                        if (!charEstPasValide & reponse == 'n' || reponse == 'N') {
-                            System.out.println(MSG_MODIF_ANNUL);
-                            return;
+                        } else if (tab[i].getNumero() != entierValide) {
+                            messErr = MSG_ERR_MODIFS;
+                            resultat = false;
                         }
                     }
                 }
+            } while (estModifie && !resultat);
+
+            if (!resultat) {
+                System.out.println(messErr);
             }
         }
-    }
 
+    }
 
     private static void supprimerPizza(Pizza[] tab, int entree) {
 
@@ -483,7 +514,7 @@ public class Tp3Gr20 {
 
         Scanner monScanner = new Scanner(System.in);
         do {
-            System.out.println(msgSoll);
+            System.out.print(msgSoll);
 
             car = monScanner.next().charAt(0);
 
@@ -521,53 +552,68 @@ public class Tp3Gr20 {
         outputWriter.close();
     }
 
-    public static void statuerSurLivraison(Pizza[] tab, Pizza[] tab1, String messSollChoix, String messTabVide,
-                                           String messErrMenu, String messSollLiv, String messConf,
-                                           String messAnnul) {
+    public static void statuerSurLivraison(Pizza[] tab, Pizza[] tab1, String messSollChoix, String messErrSaisie,
+                                                 String messTabVide, String messErrExistePas, String messErr,
+                                                    String messSollLiv, String messConf, String messAnnul) {
         char reponse = ' ';
         int entierValide;
         Pizza[] nouvTab;
         boolean estVide;
         boolean estIdentique;
+        boolean estModifie;
         boolean charValide;
+        String messErreur = "";
 
         estVide = tab[0] == null;
         if (estVide) {
             System.out.println(messTabVide);
         }
         if (!estVide) {
-            entierValide = validerEntier(messSollChoix, messErrMenu, 0, tab.length - 1);
-            for (int i = 0; i < tab.length - 1; i++) {
-                if (tab[i] != null) {
-                    estIdentique = tab[i].getNumero() == entierValide;
+            estModifie = false;
+            estIdentique = true;
 
-                    if (estIdentique) {
-                        System.out.println(tab[i]);
-                        System.out.println();
-                        reponse = validerCar(messSollLiv, messErrMenu);
+            do {
 
-                        charValide = reponse == 'o' || reponse == 'O' || reponse == 'n' || reponse == 'N';
-                        if (charValide & reponse == 'o' || reponse == 'O') {
-                            ajouter(tab1, tab[i]);
-                            nouvTab = augmenterTailleTableauCinq(tab1);
-                            ajouter(nouvTab, tab[i]);
-                            supprimerPizza(tab, entierValide);
-                            System.out.println(messConf);
+                entierValide = validerEntier(messSollChoix, messErrSaisie, messErrSaisie,0, tab.length - 1);
+                for (int i = 0; i < tab.length - 1; i++) {
+                    if (tab[i] != null) {
 
+                        estIdentique = tab[i].getNumero() == entierValide;
+
+                        if (estIdentique) {
+                            System.out.println(tab[i]);
+                            System.out.println();
+
+                            reponse = validerCar(messSollLiv, messErr);
+
+                            charValide = reponse == 'o' || reponse == 'O' || reponse == 'n' || reponse == 'N';
+                            if (charValide & reponse == 'o' || reponse == 'O') {
+                                ajouter(tab1, tab[i]);
+                                nouvTab = augmenterTailleTableauCinq(tab1);
+                                ajouter(nouvTab, tab[i]);
+                                supprimerPizza(tab, entierValide);
+                                System.out.println(messConf);
+                                estModifie = true;
+                            }
+                            if (charValide & reponse == 'n' || reponse == 'N') {
+                                System.out.println(messAnnul);
+
+                            }
+
+                        } else if (tab[i].getNumero() != entierValide) {
+                            messErreur = messErrExistePas;
+                            estIdentique = false;
                         }
-                        if (charValide & reponse == 'n' || reponse == 'N') {
-                            System.out.println(messAnnul);
-                        }
-
-                    } /*else if (tab[i].getNumero() != entierValide & reponse != 'o' && reponse != 'O' && reponse != 'n' && reponse != 'N') {
-                        System.out.println(" Impossible de confirmer la livraison de cette pizza car elle n'est "
-                                + "pas dans les commandes en cours de livraison.");
-                        return;
-                    }*/
+                    }
                 }
+            } while (estModifie && !estIdentique);
+
+            if (!estIdentique) {
+                System.out.println(messErreur);
             }
         }
     }
+
 
     public static void main(String[] args) throws IOException {
         Pizza[] commandesEnCours = new Pizza[10];
@@ -630,8 +676,9 @@ public class Tp3Gr20 {
                     System.out.println();
                     tabLivraison = augmenterTailleTableauCinq(pizzaEnLivraison);
                     pizzaEnLivraison = tabLivraison;
-                    statuerSurLivraison(commandesEnCours, pizzaEnLivraison, MSG_SOLL_CHOIX_PIZZA, MSG_TAB_LIV_VIDE,
-                            MSG_ERR_CONF_MODIFS, MSG_SOLL_ENV_LIVRAISON, MSG_ENV_LIVRAISON_CONF, MSG_ENV_LIVRAISON_ANNUL);
+                    statuerSurLivraison(commandesEnCours, pizzaEnLivraison, MSG_SOLL_CHOIX_PIZZA, MSG_ERR_SAISIE,
+                                MSG_TAB_LIV_VIDE, MSG_ERR_COMM_EXISTE_PAS, MSG_ERR_CONF_MODIFS, MSG_SOLL_ENV_LIVRAISON,
+                                    MSG_ENV_LIVRAISON_CONF, MSG_ENV_LIVRAISON_ANNUL);
 
                     break;
                 case 5:
@@ -653,8 +700,9 @@ public class Tp3Gr20 {
                     System.out.println();
                     tabConfirmee = augmenterTailleTableauCinq(livraisonConfirmee);
                     livraisonConfirmee = tabConfirmee;
-                    statuerSurLivraison(pizzaEnLivraison, livraisonConfirmee, MSG_SOLL_CHOIX_PIZZA, MSG_TAB_CONF_VIDE,
-                            MSG_ERR_CONF_MODIFS, MSG_CONF_LIVRAISON, MSG_LIV_CONF, MSG_LIV_ANNUL);
+                    statuerSurLivraison(pizzaEnLivraison, livraisonConfirmee, MSG_SOLL_CHOIX_PIZZA, MSG_ERR_SAISIE,
+                                    MSG_TAB_CONF_VIDE, MSG_ERR_LIV_EXISTE_PAS, MSG_ERR_CONF_MODIFS, MSG_CONF_LIVRAISON,
+                                        MSG_LIV_CONF, MSG_LIV_ANNUL);
                     break;
 
                 case 7:
@@ -663,7 +711,7 @@ public class Tp3Gr20 {
                     System.out.println("LIVRAISONS CONFIRMÉES");
                     System.out.println("----------------------");
                     System.out.println();
-                    afficherTableauPizza(livraisonConfirmee, MSG_LIV_VIDE);
+                    afficherTableauPizza(livraisonConfirmee, MSG_TAB_AFF_CONF_LIV);
                     System.out.println();
                     pause();
 
